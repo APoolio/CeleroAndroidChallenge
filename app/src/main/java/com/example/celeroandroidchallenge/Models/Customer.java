@@ -17,6 +17,18 @@ public class Customer implements Comparable<Customer>
     //Default Constructor
     Customer() {}
 
+    //Constructor for when loading from the DB
+    public Customer(String identifier, String visitOrder, String name, String phoneNumber, ProfilePictures profilePicture, Location location, String serviceReason, ArrayList<String> problemPictures)
+    {
+        this.identifier = identifier;
+        this.visitOrder = name;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
+        this.location = location;
+        this.serviceReason = serviceReason;
+        this.problemPictures = problemPictures;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -53,20 +65,6 @@ public class Customer implements Comparable<Customer>
         }
 
         return getvisitOrder().compareTo(customer.getvisitOrder());
-    }
-}
-
-class Location
-{
-    private Address address;
-    private Cordinate cordinate;
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Cordinate getCordinate() {
-        return cordinate;
     }
 }
 

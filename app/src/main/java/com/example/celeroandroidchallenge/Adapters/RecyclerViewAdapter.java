@@ -1,8 +1,8 @@
-package com.example.celeroandroidchallenge;
+package com.example.celeroandroidchallenge.Adapters;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,13 +14,9 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.celeroandroidchallenge.Activities.MainActivity;
-import com.example.celeroandroidchallenge.Adapters.CardViewAdapter;
 import com.example.celeroandroidchallenge.Models.Customer;
-import com.example.celeroandroidchallenge.Models.ProfilePictures;
+import com.example.celeroandroidchallenge.R;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.phoneNumber.setText(item.get(position).getPhoneNumber());
 
 
-
+        Log.d("onBindViewHolderCrash", item.get(position).getname());
         Picasso.get().load(item.get(position).getprofilePictures().getLarge()).error(R.drawable.ic_baseline_person_24).placeholder(R.drawable.ic_baseline_person_24).into(holder.profilePicture);
     }
 
@@ -69,6 +65,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
+    @Override
+    public void registerAdapterDataObserver(@NonNull RecyclerView.AdapterDataObserver observer) {
+        super.registerAdapterDataObserver(observer);
+
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {

@@ -1,4 +1,4 @@
-package com.example.celeroandroidchallenge;
+package com.example.celeroandroidchallenge.Services;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

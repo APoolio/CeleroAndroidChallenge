@@ -1,4 +1,4 @@
-package com.example.celeroandroidchallenge;
+package com.example.celeroandroidchallenge.DAO;
 
 import com.example.celeroandroidchallenge.Models.Customer;
 

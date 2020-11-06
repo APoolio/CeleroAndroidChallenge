@@ -5,7 +5,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,15 +12,15 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 
 
-import com.example.celeroandroidchallenge.CustomerAPI;
-import com.example.celeroandroidchallenge.CustomerService;
+import com.example.celeroandroidchallenge.CustomerRoomDatabase;
+import com.example.celeroandroidchallenge.DAO.CustomerAPI;
+import com.example.celeroandroidchallenge.DAO.CustomerDao;
 import com.example.celeroandroidchallenge.Models.Customer;
+import com.example.celeroandroidchallenge.Models.CustomerEntity;
 import com.example.celeroandroidchallenge.R;
-import com.example.celeroandroidchallenge.RecyclerViewAdapter;
-import com.google.gson.JsonObject;
+import com.example.celeroandroidchallenge.Adapters.RecyclerViewAdapter;
 
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager layoutManager;
     public CardView customerCardView;
 
+    private CustomerDao customerDao;
+
     private ImageButton cardViewCancel;
 
     @Override
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         customerCardView = findViewById(R.id.map_cv_truck_desc);
         cardViewCancel = findViewById(R.id.cardView_ib_cancel);
         customerCardView.setVisibility(View.INVISIBLE);
+
         getCustomerList();
 
 
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity
 
     private void getCustomerList()
     {
+        CustomerRoomDatabase db = CustomerRoomDatabase.getDatabase(getApplication());
+        customerDao = db.customerDao();
+
+
         Retrofit retrofit = null;
 
         if (retrofit == null)
@@ -89,6 +95,8 @@ public class MainActivity extends AppCompatActivity
 
                 customerList = response.body();
 
+                if(customerList != null)
+                    insertIntoDb(customerList);
                 //Sorting the objects in the correct visit order
                 Collections.sort(customerList);
 
@@ -106,14 +114,75 @@ public class MainActivity extends AppCompatActivity
                 Log.i("autolog", "RecyclerViewAdapter recyclerViewAdapter =new RecyclerViewAdapter(getApplicationContext(), userList);");
                 recyclerView.setAdapter(recyclerViewAdapter);
                 Log.i("autolog", "recyclerView.setAdapter(recyclerViewAdapter);");
+
+                recyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+                {
+                    @Override
+                    public void onChanged()
+                    {
+                        super.onChanged();
+
+
+                    }
+                });
             }
 
+            /* Load from local database */
             @Override
-            public void onFailure(Call<List<Customer>> call, Throwable t) {
+            public void onFailure(Call<List<Customer>> call, Throwable t)
+            {
                 Log.d("onFailure", t.toString());
+
+                List<Customer> customerListFromDB = retrieveFromDB();
+
+                //Sorting the objects in the correct visit order
+                Collections.sort(customerListFromDB);
+
+                RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);
+
+                layoutManager = new LinearLayoutManager(MainActivity.this);
+
+                recyclerView.setLayoutManager(layoutManager);
+
+                RecyclerViewAdapter recyclerViewAdapter =new RecyclerViewAdapter(getApplicationContext(), customerListFromDB, customerCardView);
+
+                recyclerView.setAdapter(recyclerViewAdapter);
+
             }
         });
     }
+
+    private void insertIntoDb(List<Customer> customerList)
+    {
+        for(Customer c : customerList)
+        {
+            CustomerEntity customerEntity = new CustomerEntity(c.getIdentifier(), c.getvisitOrder(),c.getname(), c.getPhoneNumber(), c.getprofilePictures(), c.getLocation(), c.getServiceReason(), c.getProblemPictures());
+
+            //Running insert on non main thread so it wont lock up the system
+            CustomerRoomDatabase.databaseWriteExecutor.execute(() -> {
+                customerDao.insert(customerEntity);
+            });
+        }
+    }
+
+    private List<Customer> retrieveFromDB()
+    {
+
+        List<Customer> customerList = new ArrayList<>();
+        //Running insert on non main thread so it wont lock up the system
+        CustomerRoomDatabase.databaseWriteExecutor.execute(() -> {
+            List<CustomerEntity> customerEList = customerDao.getAllCustomers();
+
+            for(CustomerEntity c : customerEList)
+            {
+                customerList.add(new Customer(c.getIdentifier(),c.getVisitOrder(), c.getName(), c.getPhoneNumber(), c.getProfilePictures(), c.getLocation(), c.getServiceReason(), c.getProblemPictures()));
+                Log.d("FromDB", c.getName());
+            }
+        });
+
+        return customerList;
+    }
+
     /* Animation to hide card view once cancel has been clicked */
     public void slideDown(CardView cardView)
     {
