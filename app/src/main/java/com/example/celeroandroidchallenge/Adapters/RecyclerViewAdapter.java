@@ -6,6 +6,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.example.celeroandroidchallenge.Models.Customer;
 import com.example.celeroandroidchallenge.Models.Location;
 import com.example.celeroandroidchallenge.R;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -84,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView cardViewStreetAddress;
         private TextView cardViewCityAddress;
         private TextView cardViewCodeAddress;
+        private MaterialButton cardViewDirections;
 
 
         private TextView cardViewServiceReason;
@@ -109,10 +113,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardViewPhoneNumber = cardView.findViewById(R.id.cardView_tv_phoneNumber);
             cardViewServiceReason = cardView.findViewById(R.id.cardView_tv_serviceDesc);
             cardViewVisitOrder = cardView.findViewById(R.id.rv_tv_orderNumber);
-
             cardViewStreetAddress = cardView.findViewById(R.id.cardView_tv_streetAddress);
             cardViewCityAddress = cardView.findViewById(R.id.cardView_tv_cityAddress);
             cardViewCodeAddress = cardView.findViewById(R.id.cardView_tv_codeAddress);
+            cardViewDirections = cardView.findViewById(R.id.cardView_btn_directions);
+
 
             layoutManager = new LinearLayoutManager(context,
                     LinearLayoutManager.HORIZONTAL,
@@ -136,13 +141,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardViewCityAddress.setText(item.get(mPosition).getLocation().getAddress().getCity() + ", " + item.get(mPosition).getLocation().getAddress().getState());
             cardViewCodeAddress.setText(item.get(mPosition).getLocation().getAddress().getPostalCode() + ", " + item.get(mPosition).getLocation().getAddress().getCountry());
 
+            cardViewDirections.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    // Creates an Intent that will load a map at given coordinates
+                    Uri gmmIntentUri = Uri.parse("geo:" + item.get(mPosition).getLocation().getCordinate().getLatitude() + ", " + item.get(mPosition).getLocation().getCordinate().getLongitude());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(mapIntent);
+                }
+            });
+
             handleCardAdapter(item.get(mPosition).getProblemPictures());
 
             slideUp(cardView);
             cardView.setVisibility(View.VISIBLE);
         }
 
-        public void handleCardAdapter(ArrayList<String> problemPictures) {
+        public void handleCardAdapter(ArrayList<String> problemPictures)
+        {
             RecyclerView cardViewRecycler = cardView.findViewById(R.id.cardViewRecyclerView);
             cardViewRecycler.setLayoutManager(layoutManager);
             CardViewAdapter cardViewAdapter = new CardViewAdapter(context, problemPictures, cardView);

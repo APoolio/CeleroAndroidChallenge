@@ -68,17 +68,3 @@ public class Customer implements Comparable<Customer>
     }
 }
 
-class Cordinate
-{
-    private String latitude;
-    private String longitude;
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-}
-

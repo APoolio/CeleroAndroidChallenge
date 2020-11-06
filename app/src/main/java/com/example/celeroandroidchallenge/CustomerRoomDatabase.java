@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 
 //Annotating to be a RoomDatabase
 //exportSchema to false since we are not keeping a history of schema versions (For migrating to databases)
-@Database(entities = {CustomerEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {CustomerEntity.class}, version = 2, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class CustomerRoomDatabase extends RoomDatabase
 {

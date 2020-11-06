@@ -144,52 +144,66 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="10dp"/>
 
-
-                <LinearLayout
-                    android:id="@+id/cardView_ll_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="7dp">
-
-                    <TextView
-                        android:id="@+id/cardView_tv_streetAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/rubik_light"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="10dp"/>
-
                     <LinearLayout
+                        android:id="@+id/cardView_ll_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:layout_marginBottom="7dp">
+
                         <TextView
-                            android:id="@+id/cardView_tv_cityAddress"
+                            android:id="@+id/cardView_tv_streetAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/rubik_light"
                             android:textColor="@color/black"
                             android:layout_marginLeft="10dp"/>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/cardView_tv_cityAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_light"
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="10dp"/>
+
+                            <TextView
+                                android:id="@+id/cardView_tv_StateAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/rubik_light"
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+
+
                         <TextView
-                            android:id="@+id/cardView_tv_StateAddress"
+                            android:id="@+id/cardView_tv_codeAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/rubik_light"
                             android:textColor="@color/black"
                             android:layout_marginLeft="10dp"/>
+
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/cardView_tv_codeAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/rubik_light"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="10dp"/>
-
-                </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cardView_btn_directions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="#37474f"
+                    android:drawableLeft="@drawable/ic_icons8_google"
+                    android:drawablePadding="3dp"
+                    android:text="@string/cardView_directions"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="6pt"
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@+id/cardView_tv_serviceDesc"

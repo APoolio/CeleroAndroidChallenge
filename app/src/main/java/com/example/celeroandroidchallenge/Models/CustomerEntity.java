@@ -40,7 +40,6 @@ public class CustomerEntity
     @ColumnInfo() //Column it is under
     private String serviceReason;
 
-    @NonNull //Can't be null
     @ColumnInfo() //Column it is under
     private ArrayList<String> problemPictures;
 

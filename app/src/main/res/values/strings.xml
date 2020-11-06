@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CeleroAndroidChallenge</string>
+    <string name="cardView_directions">Directions</string>
 </resources>
