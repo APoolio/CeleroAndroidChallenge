@@ -10,9 +10,10 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/* Converters to be able to store custom objects into the Room Database*/
 public class Converters
 {
-
     @TypeConverter
     public static Location fromLocationStrings(String values) {
         return new Gson().fromJson(values, Location.class);

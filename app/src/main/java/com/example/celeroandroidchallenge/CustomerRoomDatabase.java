@@ -46,7 +46,7 @@ public abstract class CustomerRoomDatabase extends RoomDatabase
             {
                 if (INSTANCE == null)
                 {
-                    //Using Room's database builder to create the RoomDatabase object with the name word_database
+                    //Using Room's database builder to create the RoomDatabase object with the name customer_database
                     //Creating the actual database
                     //Wipes and rebuilds instead of migrating
                     //.fallbackToDestructiveMigration() - if no Migration object. Migration is not part of this practical
@@ -77,9 +77,8 @@ public abstract class CustomerRoomDatabase extends RoomDatabase
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>
     {
-        //Need a Dao to delete and add words
+        //Need a Dao to delete and add customers
         private final CustomerDao mDao;
-        //String[] words = {"Tannehill", "King", "Henry"};
 
         PopulateDbAsync(CustomerRoomDatabase db)
         {
@@ -94,16 +93,6 @@ public abstract class CustomerRoomDatabase extends RoomDatabase
             // Not needed if you only populate the database
             // when it is first created
             //mDao.deleteAll();
-
-            //If getAnyWord() returns 0 then there are no words and we need to populate the database
-            /*if(mDao.getAnyWord().length < 1)
-            {
-                for (int i = 0; i <= words.length - 1; i++)
-                {
-                    Word word = new Word(words[i]);
-                    mDao.insert(word);
-                }
-            }*/
             return null;
         }
     }

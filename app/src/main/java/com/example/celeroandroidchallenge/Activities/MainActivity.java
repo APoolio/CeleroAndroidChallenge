@@ -55,9 +55,12 @@ public class MainActivity extends AppCompatActivity
         getCustomerList();
 
 
-        cardViewCancel.setOnClickListener(new View.OnClickListener() {
+        /* onClickListener for cancel button in the CardView */
+        cardViewCancel.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 slideDown(customerCardView);
                 customerCardView.setVisibility(View.INVISIBLE);
             }
@@ -66,10 +69,12 @@ public class MainActivity extends AppCompatActivity
 
     private void getCustomerList()
     {
+        /* Create instance of the CustomerRoomDatabase */
         CustomerRoomDatabase db = CustomerRoomDatabase.getDatabase(getApplication());
         customerDao = db.customerDao();
 
 
+        /*Using Retrofit to retrieve the JSON from the URL */
         Retrofit retrofit = null;
 
         if (retrofit == null)
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                     .build();
         }
 
+        /* Calling the service class to access the end URL */
         CustomerAPI customerAPI = retrofit.create(CustomerAPI.class);
         Call<List<Customer>> call = customerAPI.getAllNames();
 
@@ -88,32 +94,21 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response)
             {
-                //Log.i("onResponse", response.message());
-                Log.i("autolog", "onResponse");
-
-                Log.d("onResponse", response.toString());
-
                 customerList = response.body();
 
                 if(customerList != null)
                     insertIntoDb(customerList);
+
                 //Sorting the objects in the correct visit order
                 Collections.sort(customerList);
 
-                Log.i("autolog", "List<User> userList = response.body();");
-
+                /* Setting up the RecyclerView */
                 RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);
-                Log.i("autolog", "RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);");
-
                 layoutManager = new LinearLayoutManager(MainActivity.this);
-                Log.i("autolog", "layoutManager = new LinearLayoutManager(MainActivity.this);");
                 recyclerView.setLayoutManager(layoutManager);
-                Log.i("autolog", "recyclerView.setLayoutManager(layoutManager);");
-
                 RecyclerViewAdapter recyclerViewAdapter =new RecyclerViewAdapter(getApplicationContext(), customerList, customerCardView);
-                Log.i("autolog", "RecyclerViewAdapter recyclerViewAdapter =new RecyclerViewAdapter(getApplicationContext(), userList);");
                 recyclerView.setAdapter(recyclerViewAdapter);
-                Log.i("autolog", "recyclerView.setAdapter(recyclerViewAdapter);");
+
             }
 
             /* Load from local database */
@@ -127,6 +122,7 @@ public class MainActivity extends AppCompatActivity
                 //Sorting the objects in the correct visit order
                 Collections.sort(customerListFromDB);
 
+                /* Pass it into the RecyclerView */
                 RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);
 
                 layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -158,6 +154,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /* Inserting into the local dattabase */
     private void insertIntoDb(List<Customer> customerList)
     {
         for(Customer c : customerList)
@@ -171,6 +168,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /* Retrieving from the local database
+    *  Having to convert CustomerEntity obj to a Customer obj */
     private List<Customer> retrieveFromDB()
     {
 

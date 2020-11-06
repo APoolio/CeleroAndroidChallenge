@@ -131,10 +131,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardViewId.setText(item.get(mPosition).getIdentifier());
             cardViewPhoneNumber.setText(item.get(mPosition).getPhoneNumber());
             cardViewVisitOrder.setText(item.get(mPosition).getvisitOrder());
-
-
             cardViewServiceReason.setText(item.get(mPosition).getServiceReason());
-
             cardViewStreetAddress.setText(item.get(mPosition).getLocation().getAddress().getStreet());
             cardViewCityAddress.setText(item.get(mPosition).getLocation().getAddress().getCity() + ", " + item.get(mPosition).getLocation().getAddress().getState());
             cardViewCodeAddress.setText(item.get(mPosition).getLocation().getAddress().getPostalCode() + ", " + item.get(mPosition).getLocation().getAddress().getCountry());
