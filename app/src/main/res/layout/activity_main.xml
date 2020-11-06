@@ -27,7 +27,7 @@
             android:id="@+id/map_cv_truck_desc"
             layout="@layout/cardview_view"
             android:layout_width="325dp"
-            android:layout_height="300dp"
+            android:layout_height="380dp"
             android:layout_marginBottom="10dp" />
     </LinearLayout>
 
