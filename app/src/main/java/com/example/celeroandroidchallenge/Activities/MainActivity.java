@@ -114,17 +114,6 @@ public class MainActivity extends AppCompatActivity
                 Log.i("autolog", "RecyclerViewAdapter recyclerViewAdapter =new RecyclerViewAdapter(getApplicationContext(), userList);");
                 recyclerView.setAdapter(recyclerViewAdapter);
                 Log.i("autolog", "recyclerView.setAdapter(recyclerViewAdapter);");
-
-                recyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
-                {
-                    @Override
-                    public void onChanged()
-                    {
-                        super.onChanged();
-
-
-                    }
-                });
             }
 
             /* Load from local database */
@@ -150,6 +139,23 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void updateList(List<Customer> newCustomers)
+    {
+        List<Customer> oldCustomers = retrieveFromDB();
+
+        //if old customer is not in the new list than delete
+        for(Customer c : oldCustomers)
+        {
+            for(Customer o_c : newCustomers)
+            {
+                if(o_c.getIdentifier() == c.getIdentifier())
+                {
+                    break;
+                }
+            }
+        }
     }
 
     private void insertIntoDb(List<Customer> customerList)

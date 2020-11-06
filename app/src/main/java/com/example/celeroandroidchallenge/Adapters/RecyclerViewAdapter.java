@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.celeroandroidchallenge.Models.Customer;
+import com.example.celeroandroidchallenge.Models.Location;
 import com.example.celeroandroidchallenge.R;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +54,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.name.setText(item.get(position).getname());
         holder.phoneNumber.setText(item.get(position).getPhoneNumber());
 
-
         Log.d("onBindViewHolderCrash", item.get(position).getname());
         Picasso.get().load(item.get(position).getprofilePictures().getLarge()).error(R.drawable.ic_baseline_person_24).placeholder(R.drawable.ic_baseline_person_24).into(holder.profilePicture);
     }
@@ -64,19 +64,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return item.size();
     }
 
-
-    @Override
-    public void registerAdapterDataObserver(@NonNull RecyclerView.AdapterDataObserver observer) {
-        super.registerAdapterDataObserver(observer);
-
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         /* ViewHolder UI */
         public TextView name;
         public TextView phoneNumber;
         public ImageView profilePicture;
+        public TextView orderNumber;
 
         /* CardView UI */
         private LinearLayoutManager layoutManager;
@@ -87,6 +81,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView cardViewVisitOrder;
         private TextView cardViewPhoneNumber;
         private TextView cardViewAddress;
+        private TextView cardViewStreetAddress;
+        private TextView cardViewCityAddress;
+        private TextView cardViewCodeAddress;
+
+
         private TextView cardViewServiceReason;
         private ImageView cardViewProblemPictures;
 
@@ -100,6 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             name = (TextView) itemView.findViewById(R.id.name);
             phoneNumber = (TextView) itemView.findViewById(R.id.rv_tv_phoneNumber);
             profilePicture = itemView.findViewById(R.id.rv_iv_profilePicture);
+            orderNumber = itemView.findViewById(R.id.rv_tv_orderNumber);
 
             /* CardView UI References */
             cardViewRecyclerView = itemView.findViewById(R.id.cardViewRecyclerView);
@@ -108,6 +108,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardViewId = cardView.findViewById(R.id.cardView_tv_id);
             cardViewPhoneNumber = cardView.findViewById(R.id.cardView_tv_phoneNumber);
             cardViewServiceReason = cardView.findViewById(R.id.cardView_tv_serviceDesc);
+            cardViewVisitOrder = cardView.findViewById(R.id.rv_tv_orderNumber);
+
+            cardViewStreetAddress = cardView.findViewById(R.id.cardView_tv_streetAddress);
+            cardViewCityAddress = cardView.findViewById(R.id.cardView_tv_cityAddress);
+            cardViewCodeAddress = cardView.findViewById(R.id.cardView_tv_codeAddress);
 
             layoutManager = new LinearLayoutManager(context,
                     LinearLayoutManager.HORIZONTAL,
@@ -125,7 +130,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardViewName.setText(item.get(mPosition).getname());
             cardViewId.setText(item.get(mPosition).getIdentifier());
             cardViewPhoneNumber.setText(item.get(mPosition).getPhoneNumber());
+            cardViewVisitOrder.setText(item.get(mPosition).getvisitOrder());
+
+
             cardViewServiceReason.setText(item.get(mPosition).getServiceReason());
+
+            cardViewStreetAddress.setText(item.get(mPosition).getLocation().getAddress().getStreet());
+            cardViewCityAddress.setText(item.get(mPosition).getLocation().getAddress().getCity() + ", " + item.get(mPosition).getLocation().getAddress().getState());
+            cardViewCodeAddress.setText(item.get(mPosition).getLocation().getAddress().getPostalCode() + ", " + item.get(mPosition).getLocation().getAddress().getCountry());
 
             handleCardAdapter(item.get(mPosition).getProblemPictures());
 

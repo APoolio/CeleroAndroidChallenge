@@ -40,6 +40,4 @@
             android:textColor="@color/black"
             android:paddingLeft="10dp"/>
     </LinearLayout>
-
-
 </LinearLayout>

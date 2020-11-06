@@ -17,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="@color/black"
         app:layout_anchorGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +27,7 @@
             android:id="@+id/map_cv_truck_desc"
             layout="@layout/cardview_view"
             android:layout_width="325dp"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
     </LinearLayout>
 
